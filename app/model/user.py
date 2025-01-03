@@ -1,16 +1,14 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
+from app.database import db
 
-Base = declarative_base()
 
-class User(Base):
+class User(db.Model):
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
-    surname = Column(String, nullable=False)
-    age = Column(Integer, nullable=False)
-    department_id = Column(Integer, ForeignKey('departments.id'), nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.NVARCHAR(50), nullable=False)
+    surname = db.Column(db.NVARCHAR(50), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    department_id = db.Column(db.Integer, db.ForeignKey('departments.id'), nullable=False)
 
     def serialize(self):
         return {

@@ -22,4 +22,5 @@ class Config:
         SQLALCHEMY_DATABASE_URI = f"sqlite:///".format(
             os.path.join(os.path.dirname(__file__), f"{DB_NAME}.db")
         )
-    
+    else:
+        SQLALCHEMY_DATABASE_URI = f"{DB_ENGINE}+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"

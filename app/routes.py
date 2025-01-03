@@ -1,21 +1,19 @@
 from flask import Flask, Blueprint
 from .controller import *
 
-user_bp = Blueprint('user', __name__)
+user_bp = Blueprint('user', __name__ )
 department_bp = Blueprint('department', __name__)
 
-@user_bp.route('/user', methods=['GET'])
-def get_users():
-    return "List of users"
+# User routes
+user_bp.route('/',  methods=['GET'])(UserController.getUsers)
+user_bp.route('/<user_id>',  methods=['GET'])(UserController.getUser)
+user_bp.route('/', methods=['POST'])(UserController.addUser)
+user_bp.route('/<user_id>', methods=['PUT'])(UserController.editUser)
+user_bp.route('/<user_id>', methods=['DELETE'])(UserController.deleteUser)
 
-@user_bp.route('/user', methods=['POST'])
-def create_user():
-    return "Create a new user"
-
-@department_bp.route('/department', methods=['GET'])
-def get_departments():
-    return "List of departments"
-
-@department_bp.route('/department', methods=['POST'])
-def create_department():
-    return "Create a new department"
+# User routes
+department_bp.route('/',  methods=['GET'])(DepartmentController.getDepartments)
+department_bp.route('/<department_id>',  methods=['GET'])(DepartmentController.getDepartment)
+department_bp.route('/', methods=['POST'])(DepartmentController.addDepartment)
+department_bp.route('/<department_id>', methods=['PUT'])(DepartmentController.editDepartment)
+department_bp.route('/<department_id>', methods=['DELETE'])(DepartmentController.deleteDepartment)
