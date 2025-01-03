@@ -3,9 +3,9 @@ from app.database import db
 class Department(db.Model):
     __tablename__ = 'departments'
     
-    id = db.Column(db.Integer, primary_key=True)
-    shortname = db.Column(db.String(50), nullable=False)
-    fullname = db.Column(db.String(100), nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    shortname = db.Column(db.NVARCHAR(50), nullable=False)
+    fullname = db.Column(db.NVARCHAR(50), nullable=False)
 
     def __init__(self, shortname, fullname):
         self.shortname = shortname

@@ -1,6 +1,7 @@
 import os
 
 from flask import Response
+from flask_cors import CORS
 from flask_migrate import Migrate
 
 from .database import db
@@ -10,10 +11,12 @@ from .config import Config
 
 
 app = Flask(__name__)
+cors = CORS()
 migrate = Migrate()
 
 def register_extensions(app):
     db.init_app(app)
+    cors.init_app(app, resources={r"/*": {"origins": "*"}})
     migrate.init_app(app, db)
 
 
@@ -38,7 +41,7 @@ def create_app():
     register_extensions(app)
     configure_database(app)
 
-    app.register_blueprint(user_bp)
-    app.register_blueprint(department_bp)
+    app.register_blueprint(user_bp, url_prefix='/user')
+    app.register_blueprint(department_bp, url_prefix='/department')
 
     return app

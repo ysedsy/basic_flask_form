@@ -10,3 +10,5 @@ load_dotenv()
 
 app = create_app()
 Minify(app=app, html=True, js=False, cssless=True)
+if __name__ == "__main__":
+    app.run(host=Config.FLASK_RUN_HOST, port=Config.FLASK_RUN_PORT)
