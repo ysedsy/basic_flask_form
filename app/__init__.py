@@ -16,7 +16,7 @@ migrate = Migrate()
 
 def register_extensions(app):
     db.init_app(app)
-    cors.init_app(app, resources={r"/*": {"origins": "*"}})
+    cors.init_app(app, resources={r"*": {"origins": "*"}})
     migrate.init_app(app, db)
 
 
@@ -26,7 +26,7 @@ def configure_database(app):
             engine = db.get_engine()
             if engine.name == 'mysql':
                 import pymysql
-            db.create_all()
+            db.create_all() 
         except Exception as e:
             print(e)
             basedir = os.path.abspath(os.path.dirname(__file__))
@@ -41,7 +41,7 @@ def create_app():
     register_extensions(app)
     configure_database(app)
 
-    app.register_blueprint(user_bp, url_prefix='/user')
-    app.register_blueprint(department_bp, url_prefix='/department')
+    app.register_blueprint(user_bp, url_prefix='/api/users')
+    app.register_blueprint(department_bp, url_prefix='/api/departments')
 
     return app
