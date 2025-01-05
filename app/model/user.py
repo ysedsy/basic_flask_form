@@ -1,5 +1,5 @@
 from app.database import db
-
+from .department import Department
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -16,7 +16,7 @@ class User(db.Model):
             'name': self.name,
             'surname': self.surname,
             'age': self.age,
-            'department_id': self.department_id
+            'department': Department.query.get(self.department_id).serialize()
         }
 
     def __str__(self):

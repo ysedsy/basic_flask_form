@@ -1,12 +1,11 @@
 from flask import request, jsonify, make_response
 from app import db
-from app.model import User
+from app.model import User, Department
 
 class UserController:
 
     def getUsers():
         users = User.query.all()
-        print("AAA")
         return jsonify([user.serialize() for user in users])
 
     def getUser(user_id):
@@ -18,11 +17,12 @@ class UserController:
     
     def addUser():
         data = request.get_json()
+        dept = Department.query.filter(Department.shortname == data.get('department')).first().id
         new_user = User(
             name=data.get('name'),
             surname=data.get('surname'),
             age=data.get('age'),
-            department_id=data.get('department_id')
+            department_id=dept
         )
         db.session.add(new_user)
         db.session.commit()
@@ -36,7 +36,7 @@ class UserController:
             user.name = data.get('name', user.name)
             user.surname = data.get('surname', user.surname)
             user.age = data.get('age', user.age)
-            user.department_id = data.get('department_id', user.department_id)
+            user.department_id = dept = Department.query.filter(Department.shortname == data.get('department')).first().id
             db.session.commit()
             return make_response('User updated successfully', 200)
         return make_response('User not found', 404)
