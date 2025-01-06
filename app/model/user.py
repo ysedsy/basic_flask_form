@@ -16,7 +16,7 @@ class User(db.Model):
             'name': self.name,
             'surname': self.surname,
             'age': self.age,
-            'department': Department.query.get(self.department_id).serialize()
+            'department_shortname': Department.query.get(self.department_id).shortname
         }
 
     def __str__(self):

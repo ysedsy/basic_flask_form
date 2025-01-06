@@ -13,7 +13,6 @@ class DepartmentController:
         if department:
             return jsonify(department.serialize())
         return make_response('Department not found', 404)
-
     
     def addDepartment():
         data = request.get_json()
@@ -23,8 +22,7 @@ class DepartmentController:
         )
         db.session.add(new_department)
         db.session.commit()
-        return make_response('Department added successfully', 201)
-
+        return DepartmentController.getDepartments()
     
     def editDepartment(department_id):
         department = Department.query.get(department_id)
@@ -33,7 +31,7 @@ class DepartmentController:
             department.shortname = data.get('shortname', department.shortname)
             department.fullname = data.get('fullname', department.fullname)
             db.session.commit()
-            return make_response('Department updated successfully', 200)
+            return DepartmentController.getDepartments()
         return make_response('Department not found', 404)
 
     

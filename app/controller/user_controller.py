@@ -17,7 +17,7 @@ class UserController:
     
     def addUser():
         data = request.get_json()
-        dept = Department.query.filter(Department.shortname == data.get('department')).first().id
+        dept = Department.query.filter(Department.shortname == data.get('department_shortname')).first().id
         new_user = User(
             name=data.get('name'),
             surname=data.get('surname'),
@@ -26,7 +26,7 @@ class UserController:
         )
         db.session.add(new_user)
         db.session.commit()
-        return make_response('User added successfully', 201)
+        return UserController.getUsers()
 
     
     def editUser(user_id):
@@ -36,9 +36,10 @@ class UserController:
             user.name = data.get('name', user.name)
             user.surname = data.get('surname', user.surname)
             user.age = data.get('age', user.age)
-            user.department_id = dept = Department.query.filter(Department.shortname == data.get('department')).first().id
+            dept = Department.query.filter(Department.shortname == data.get('department_shortname')).first().id
+            user.department_id = dept
             db.session.commit()
-            return make_response('User updated successfully', 200)
+            return UserController.getUsers()
         return make_response('User not found', 404)
 
     
